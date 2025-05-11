@@ -1,1 +1,32 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/tcwhlYLU)
+# Escape The Dream: Awakening
+Escape The Dream: Awakening - Games On Web 2025
+
+## Le Jeu
+Vous êtes en train de rêver, le but du jeu est de vous réveiller en tombant de votre nuage... Esquivez les obstacles et attérissez dans votre lit avant que le réveil ne sonne.
+
+## Team :
+- Valentin LUTHRINGER
+- Luca VIZIO
+- Jean-Jaques VIALE
+
+## Première Installation : 
+
+1. Cloner le projet
+2. Installer VueJS et BabylonJS :
+```bash
+npm i -g @vue/cli
+```
+```bash
+npm i -g @babylonjs/core
+```
+3. Initlaliser le projet
+```bash
+cd awakening
+npm install
+```
+
+## Lancement du projet : 
+Se rendre dans le répertoire `awakening`
+```bash
+npm run serve
+```
