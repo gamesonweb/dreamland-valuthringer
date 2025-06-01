@@ -6,7 +6,9 @@
 
 ## 🕹️ Le Jeu
 
-Lien du jeu en ligne ici : [https://escape-the-dream-awakening.vercel.app/](https://escape-the-dream-awakening.vercel.app/)
+Lien du jeu en ligne ici : [escape-the-dream-awakening.vercel.app](https://escape-the-dream-awakening.vercel.app/)
+
+La vidéo de Gameplay : [Ici](https://www.youtube.com/watch?v=UvGvXyfbhvU)
 
 Vous êtes plongé dans un rêve. Vous tombez lentement de votre nuage et devez **éviter les obstacles oniriques** tels que des arbres, des barbecues, des moutons en fuite ou des réveils fous. Si vous atteignez votre lit à temps, vous vous réveillez. 
 
@@ -16,6 +18,12 @@ Vous êtes plongé dans un rêve. Vous tombez lentement de votre nuage et devez 
 - Tomber dans le vide onirique
 - Éviter les objets de vos rêves
 - Atterrir en toute sécurité dans votre lit
+
+### 🎮 Commandes
+* Aller à droite : touche "D"
+* Aller à gauche : touche 'Q'
+* Avancer : touche "Z"
+* Reculer : touche "S"
 
 
 ## 🧑‍💻 Équipe

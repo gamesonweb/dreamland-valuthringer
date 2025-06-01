@@ -13,6 +13,8 @@ import {
   Color3,
   SceneLoader,
   Space,
+  StandardMaterial,
+  DirectionalLight,
 } from "@babylonjs/core";
 import "@babylonjs/loaders";
 import { kaykitAssets } from '@/assets/list/kaykit-assets';
@@ -66,7 +68,7 @@ export class BasicScene {
   private async init() {
     this.assetPack = "kaykit-variety";
     await this.loadKaykitAssets();
-    this.generateDropperLayers(25, -10, 10, 5, 25, 20, 40, 5, 10);
+    this.generateDropperLayers(20, -10, 10, 5, 25, 0, 5, 5, 10);
   }
 
 
@@ -75,6 +77,13 @@ export class BasicScene {
     scene.collisionsEnabled = true;
     const hemiLight = new HemisphericLight("hemiLight", new Vector3(0, 1, 0), scene);
     hemiLight.intensity = 0.5;
+
+    // Ajouter une lumière directionnelle
+    const dirLight = new DirectionalLight("dirLight", new Vector3(0.5, -1, 0.5), scene);
+    dirLight.intensity = 0.7;
+    dirLight.diffuse = new Color3(1, 1, 1);
+    dirLight.specular = new Color3(1, 1, 1);
+
 
     // Sol principal (plateforme de départ)
     this.spawnPlatform = MeshBuilder.CreateGround("ground", { width: 20, height: 10 }, scene);
@@ -139,24 +148,35 @@ export class BasicScene {
   }
 
   public async loadKaykitAssets(): Promise<void> {
-    const importPromises = kaykitAssets.map(name =>
-      SceneLoader.ImportMeshAsync(
-        "",
-        "./models/kaykit-varietypack-assets/",
-        name,
-        this.scene
-      ).then(result => {
-        result.meshes.forEach(mesh => {
-          if (mesh instanceof Mesh && mesh.name !== "__root__") {
-            mesh.setEnabled(false);
-            this.loadedMeshes.push(mesh);
+  const importPromises = kaykitAssets.map(name =>
+    SceneLoader.ImportMeshAsync(
+      "",
+      "./models/kaykit-varietypack-assets/",
+      name,
+      this.scene
+    ).then(result => {
+      result.meshes.forEach(mesh => {
+        if (mesh instanceof Mesh && mesh.name !== "__root__") {
+          mesh.setEnabled(false);
+          
+          // Forcer l'opacité des matériaux
+          if (mesh.material) {
+            if (mesh.material instanceof PBRMaterial) {
+              mesh.material.alpha = 1; // Force l'opacité totale
+              mesh.material.transparencyMode = PBRMaterial.PBRMATERIAL_OPAQUE;
+            } else if (mesh.material instanceof StandardMaterial) {
+              mesh.material.alpha = 1;
+            }
           }
-        });
-      })
-    );
+          
+          this.loadedMeshes.push(mesh);
+        }
+      });
+    })
+  );
 
-    await Promise.all(importPromises);
-  }
+  await Promise.all(importPromises);
+}
 
   // Crée des murs invisibles autour de la plateforme de départ
   private createInvisibleWalls() {
@@ -439,6 +459,21 @@ export class BasicScene {
         if (this.assetPack === "kaykit-variety" && this.loadedMeshes.length > 0) {
           const original = this.loadedMeshes[Math.floor(Math.random() * this.loadedMeshes.length)];
           mesh = original.clone("clone")!;
+          
+          // Corriger le matériau du clone
+          if (mesh.material) {
+            if (mesh.material instanceof PBRMaterial) {
+              mesh.material.alpha = 1;
+              mesh.material.transparencyMode = PBRMaterial.PBRMATERIAL_OPAQUE;
+            } else if (mesh.material instanceof StandardMaterial) {
+              mesh.material.alpha = 1;
+            }
+            
+            // Forcer le rendu en mode solide (pas de transparence)
+            mesh.material.backFaceCulling = false;
+            mesh.material.disableDepthWrite = false;
+          }
+          
           mesh.setEnabled(true);
         } else {
           const shapeFunc = this.shapes[Math.floor(Math.random() * this.shapes.length)];
